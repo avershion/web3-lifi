@@ -1,0 +1,110 @@
+"use client";
+import React, { useEffect, useState, useCallback } from "react";
+import { FixedSizeList as List, ListChildComponentProps } from "react-window";
+
+type Token = {
+    chainId: number;
+    address: string;
+    symbol: string;
+    name: string;
+    decimals: number;
+    priceUSD: string;
+    coinKey: string;
+    logoURI: string;
+};
+
+interface TokensResponse {
+    tokens: {
+        [chainId: string]: Token[];
+    };
+}
+
+export default function TokenList() {
+    const [tokens, setTokens] = useState<Token[]>([]);
+    const [loading, setLoading] = useState<boolean>(true);
+    const [error, setError] = useState<string | null>(null);
+
+    useEffect(() => {
+        const fetchTokens = async () => {
+            try {
+                const response = await fetch("https://li.quest/v1/tokens");
+                if (!response.ok) {
+                    throw new Error("Failed to fetch tokens");
+                }
+                const data = (await response.json()) as TokensResponse;
+                const allTokens: Token[] = Object.values(data.tokens).flat();
+                setTokens(allTokens);
+            } catch (err: any) {
+                setError(err.message || "An unexpected error occurred.");
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchTokens();
+    }, []);
+
+    // Memoized row renderer
+    const Row = useCallback(
+        ({ index, style }: ListChildComponentProps) => {
+            const token = tokens[index];
+            return (
+                <div
+                    style={style}
+                    className="flex items-center px-4 py-2 border-b border-gray-700 hover:bg-gray-800 transition-colors"
+                >
+                    <img
+                        src={token.logoURI}
+                        alt={token.symbol}
+                        className="w-10 h-10 mr-4 rounded-full"
+                    />
+                    <div>
+                        <div className="font-semibold text-lg text-white">
+                            {token.name}{" "}
+                            <span className="text-sm text-gray-400">
+                                ({token.symbol})
+                            </span>
+                        </div>
+                        <div className="text-sm text-gray-400">
+                            Price: ${token.priceUSD}
+                        </div>
+                    </div>
+                </div>
+            );
+        },
+        [tokens]
+    );
+
+    if (loading) {
+        return (
+            <div className="text-center mt-10 text-lg text-white">
+                Loading tokens...
+            </div>
+        );
+    }
+
+    if (error) {
+        return (
+            <div className="text-center mt-10 text-red-500">Error: {error}</div>
+        );
+    }
+
+    return (
+        <div className="max-w-4xl mx-auto p-4 w-[400px]">
+            <h1 className="text-3xl font-bold mb-6 text-center text-white">
+                LI.FI Tokens
+            </h1>
+            <div className="bg-transparent rounded-lg overflow-hidden">
+                <List
+                    height={600}
+                    itemCount={tokens.length}
+                    itemSize={100}
+                    width="100%"
+                    className="no-scrollbar"
+                >
+                    {Row}
+                </List>
+            </div>
+        </div>
+    );
+}
