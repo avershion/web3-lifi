@@ -4,22 +4,28 @@ import React from "react";
 type ButtonProps = {
     onClick?: () => void;
     children: React.ReactNode;
+    variant?: "primary" | "danger";
     className?: string;
 };
 
 export default function Button({
     onClick,
     children,
-    className,
-}: {
-    onClick?: () => void;
-    children: React.ReactNode;
-    className?: string;
-}) {
+    variant = "primary",
+    className = "",
+}: ButtonProps) {
+    const baseStyles =
+        "flex items-center justify-center w-full p-[0.8rem] text-white font-semibold rounded-lg transition-all duration-200";
+
+    const variantStyles =
+        variant === "danger"
+            ? "bg-red-600 hover:bg-red-700"
+            : "bg-blue-600 hover:bg-blue-700";
+
     return (
         <button
             onClick={onClick}
-            className={`px-4 py-2 w-full bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-all ${className}`}
+            className={`${baseStyles} ${variantStyles} ${className}`}
         >
             {children}
         </button>

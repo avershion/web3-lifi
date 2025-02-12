@@ -16,7 +16,7 @@ import {
 } from "@solana/wallet-adapter-wallets";
 import {
     WalletModalProvider,
-    WalletDisconnectButton,
+    // WalletDisconnectButton,
     WalletMultiButton,
 } from "@solana/wallet-adapter-react-ui";
 import { clusterApiUrl, LAMPORTS_PER_SOL } from "@solana/web3.js";
@@ -46,10 +46,10 @@ const WalletUI = () => {
     }, [connected, publicKey, connection]);
 
     return (
-        <div className="p-4 bg-gray-800 border border-gray-700 rounded-lg shadow-md">
+        <div className="bg-gray-800 rounded-lg">
             <div className="flex flex-col space-y-3">
-                <WalletMultiButton className="w-full py-2 px-4 bg-blue-600 hover:bg-blue-700 transition-colors duration-300 rounded-md text-white" />
-                <WalletDisconnectButton className="w-full py-2 px-4 bg-red-600 hover:bg-red-700 transition-colors duration-300 rounded-md text-white" />
+                <WalletMultiButton />
+                {/* <WalletDisconnectButton /> */}
                 {connected && publicKey && (
                     <p className="text-gray-300 break-words">
                         Balance:{" "}

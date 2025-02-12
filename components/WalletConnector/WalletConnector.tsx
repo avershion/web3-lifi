@@ -86,13 +86,21 @@ export default function WalletConnector() {
     if (!isClient) return null;
     return (
         <div className="flex items-center justify-center">
-            <div className="max-w-lg w-full mx-4 p-6 bg-gray-950 border border-gray-800 text-white shadow-2xl rounded-xl space-y-6">
-                <h2 className="text-3xl font-extrabold text-center border-b border-gray-800 pb-3">
+            <div className="max-w-lg w-full mx-4 p-6 bg-transparent text-white shadow-lg rounded-xl space-y-6">
+                <h2 className="text-3xl font-extrabold text-cente pb-3">
                     Wallet Connector
                 </h2>
 
+                {/* Solana Wallet */}
+                <div className="p-4 bg-gray-800 rounded-lg shadow-sm">
+                    <h3 className="text-xl font-semibold mb-2">
+                        Solana Wallet
+                    </h3>
+                    <SolanaWallet />
+                </div>
+
                 {/* EVM Wallet */}
-                <div className="p-4 bg-gray-800 border border-gray-700 rounded-lg shadow-md">
+                <div className="p-4 bg-gray-800 rounded-lg shadow-sm">
                     <h3 className="text-xl font-semibold mb-2">EVM Wallet</h3>
                     {isConnected ? (
                         <div className="mt-2 space-y-3">
@@ -107,7 +115,7 @@ export default function WalletConnector() {
                             )}
                             <Button
                                 onClick={() => disconnect()}
-                                className="w-full py-2 px-4 bg-red-600 hover:bg-red-700 transition-colors duration-300 rounded-md"
+                                variant="danger"
                             >
                                 Disconnect
                             </Button>
@@ -118,7 +126,7 @@ export default function WalletConnector() {
                                 <Button
                                     key={connector.id}
                                     onClick={() => connectEVM(connector)}
-                                    className="w-full py-2 px-4 bg-blue-600 hover:bg-blue-700 transition-colors duration-300 rounded-md"
+                                    variant="primary"
                                 >
                                     Connect {connector.name}
                                 </Button>
@@ -127,16 +135,8 @@ export default function WalletConnector() {
                     )}
                 </div>
 
-                {/* Solana Wallet */}
-                <div className="p-4 bg-gray-800 border border-gray-700 rounded-lg shadow-md">
-                    <h3 className="text-xl font-semibold mb-2">
-                        Solana Wallet
-                    </h3>
-                    <SolanaWallet />
-                </div>
-
                 {/* Bitcoin Wallet */}
-                <div className="p-4 bg-gray-800 border border-gray-700 rounded-lg shadow-md">
+                <div className="p-4 bg-gray-800 rounded-lg shadow-sm">
                     <h3 className="text-xl font-semibold mb-2">
                         Bitcoin Wallet
                     </h3>
@@ -152,16 +152,13 @@ export default function WalletConnector() {
                             )}
                             <Button
                                 onClick={() => setBitcoinWallet(null)}
-                                className="w-full py-2 px-4 bg-red-600 hover:bg-red-700 transition-colors duration-300 rounded-md"
+                                variant="danger"
                             >
                                 Disconnect
                             </Button>
                         </div>
                     ) : (
-                        <Button
-                            onClick={connectBitcoin}
-                            className="w-full py-2 px-4 bg-blue-600 hover:bg-blue-700 transition-colors duration-300 rounded-md"
-                        >
+                        <Button onClick={connectBitcoin} variant="primary">
                             Connect Unisat
                         </Button>
                     )}
