@@ -60,8 +60,15 @@ const SolanaButton = () => {
     } else {
         buttonText = "Connect Solana";
     }
-
-    return <Button onClick={handleClick}>{buttonText}</Button>;
+    //
+    return (
+        <Button
+            onClick={handleClick}
+            variant={connected ? "danger" : "primary"}
+        >
+            {buttonText}
+        </Button>
+    );
 };
 
 const WalletUI = ({ setCurrentTokens, currentTokens }: WalletUIProps) => {
