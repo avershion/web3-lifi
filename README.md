@@ -2,35 +2,51 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 
 ## Getting Started
 
-First, run the development server:
-
 ```bash
+# install
+npm install
+# launch dev
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+# run tests
+npm run test
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+# Multi-Chain Wallet Connector
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+A lightweight, multi-chain wallet connector application that enables users to connect wallets across different blockchain ecosystems, display a dynamic token list powered by the LI.FI API, showing real-time wallet balances.
 
-## Learn More
+## Features
 
-To learn more about Next.js, take a look at the following resources:
+### 1. Wallet Connectivity
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- **EVM-based Wallets:**
+    - Connecting to EVM-compatible blockchains.
+    - Only one EVM wallet can be connected at any time.
+- **Solana Wallets:**
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+    - Connecting using popular Solana wallet adapters (e.g., Phantom, Solflare, etc.).
 
-## Deploy on Vercel
+- **Bitcoin Wallets:**
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+    - Connecting using a Bitcoin wallet (e.g., Unisat).
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- **Simultaneous Connections:**
+    - One wallet per ecosystem (EVM, Solana, Bitcoin) can be connected simultaneously.
+- **User Interface:**
+    - A simple and intuitive UI for connecting each type of wallet.
+
+### 2. Token List
+
+- **LI.FI API Integration:**
+    - Query the [LI.FI](http://LI.FI) API to fetch a comprehensive list of all supported tokens.
+- **Optimized Rendering:**
+    - Efficiently rendering the token list to ensure smooth user interactions, even with a large number of tokens.
+
+### 3. Displaying Balances
+
+- **Real-time Balances:**
+    - Fetching and display the wallet's balances for each connected ecosystem.
+- **Dynamic UI Updates:**
+    - Automatically updating the UI when wallets are connected or disconnected.
