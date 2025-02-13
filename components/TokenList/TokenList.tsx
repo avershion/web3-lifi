@@ -79,12 +79,16 @@ export default function TokenList({
     // Filter tokens by active wallets, otherwise show all
     const displayTokens = useMemo(() => {
         if (currentTokens && currentTokens.length > 0) {
-            return tokens.filter((token) =>
-                currentTokens.some(
-                    (ct) =>
-                        ct.symbol.toLowerCase() === token.symbol.toLowerCase()
+            const pairedTokens = currentTokens
+                .map((ct) =>
+                    tokens.find(
+                        (token) =>
+                            token.symbol.toLowerCase() ===
+                            ct.symbol.toLowerCase()
+                    )
                 )
-            );
+                .filter((token): token is Token => token !== undefined);
+            return pairedTokens;
         }
         return tokens;
     }, [tokens, currentTokens]);
