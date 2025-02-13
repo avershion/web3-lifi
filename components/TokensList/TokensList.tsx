@@ -19,6 +19,32 @@ interface TokensResponse {
     };
 }
 
+// Token Logo Fallback
+const TokenLogo = ({
+    src,
+    alt,
+    className,
+}: {
+    src: string;
+    alt: string;
+    className?: string;
+}) => {
+    const [hasError, setHasError] = useState(false);
+
+    if (!src || hasError) {
+        return <img src="/vercel.svg" alt="Icon" className={className} />;
+    }
+
+    return (
+        <img
+            src={src}
+            alt={alt}
+            className={className}
+            onError={() => setHasError(true)}
+        />
+    );
+};
+
 export default function TokenList() {
     const [tokens, setTokens] = useState<Token[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
@@ -53,7 +79,7 @@ export default function TokenList() {
                     style={style}
                     className="flex items-center px-4 py-2 border-b border-gray-700 hover:bg-gray-800 transition-colors"
                 >
-                    <img
+                    <TokenLogo
                         src={token.logoURI}
                         alt={token.symbol}
                         className="w-10 h-10 mr-4 rounded-full"
