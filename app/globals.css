@@ -27,25 +27,3 @@ body {
     -ms-overflow-style: none;
     scrollbar-width: none;
 }
-
-/* Solana Wallet styling override */
-button.wallet-adapter-button-trigger {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: #f0f0f0;
-    width: 100%;
-    padding-left: 1rem;
-    padding-right: 1rem;
-    padding-top: 0.5rem;
-    padding-bottom: 0.5rem;
-    background-color: #2563eb;
-    color: #ffffff;
-    font-weight: 600;
-    border-radius: 0.5rem;
-    transition: all 0.2s;
-}
-
-button.wallet-adapter-button-trigger:hover {
-    background-color: #1d4ed8;
-}

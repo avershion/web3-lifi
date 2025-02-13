@@ -14,13 +14,33 @@ import {
     LedgerWalletAdapter,
     UnsafeBurnerWalletAdapter,
 } from "@solana/wallet-adapter-wallets";
-import {
-    WalletModalProvider,
-    // WalletDisconnectButton,
-    WalletMultiButton,
-} from "@solana/wallet-adapter-react-ui";
+import { WalletModalProvider } from "@solana/wallet-adapter-react-ui";
 import { clusterApiUrl, LAMPORTS_PER_SOL } from "@solana/web3.js";
 import "@solana/wallet-adapter-react-ui/styles.css";
+import Button from "../Button/Button";
+
+const SolanaButton = () => {
+    const { connected, connect, disconnect, publicKey } = useWallet();
+
+    const handleClick = async () => {
+        if (connected) {
+            await disconnect();
+        } else {
+            await connect();
+        }
+    };
+
+    let buttonText = "";
+    if (connected && publicKey) {
+        buttonText = `Disconnect (${publicKey
+            .toBase58()
+            .slice(0, 4)}...${publicKey.toBase58().slice(-4)})`;
+    } else {
+        buttonText = "Connect Solana";
+    }
+
+    return <Button onClick={handleClick}>{buttonText}</Button>;
+};
 
 const WalletUI = () => {
     const { publicKey, connected } = useWallet();
@@ -48,8 +68,8 @@ const WalletUI = () => {
     return (
         <div className="bg-gray-800 rounded-lg">
             <div className="flex flex-col space-y-3">
-                <WalletMultiButton />
-                {/* <WalletDisconnectButton /> */}
+                {/* Use the custom wallet button instead of WalletMultiButton */}
+                <SolanaButton />
                 {connected && publicKey && (
                     <p className="text-gray-300 break-words">
                         Balance:{" "}
