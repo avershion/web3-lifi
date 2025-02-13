@@ -1,4 +1,4 @@
-import TokenList from "@/components/TokensList/TokensList";
+import TokenList from "@/components/TokenList/TokenList";
 import WalletConnector from "@/components/WalletConnector/WalletConnector";
 
 export default function Home() {
