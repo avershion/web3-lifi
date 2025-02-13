@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useAccount, useConnect, useDisconnect, useBalance } from "wagmi";
+import { TokenType } from "../TokenList/types";
 import SolanaWallet from "./SolanaWallet";
 import Button from "../Button/Button";
 
@@ -14,7 +15,13 @@ declare global {
     }
 }
 
-export default function WalletConnector() {
+export default function WalletConnector({
+    setCurrentTokens,
+    currentTokens,
+}: {
+    setCurrentTokens: (tokens: TokenType[]) => void;
+    currentTokens: TokenType[];
+}) {
     const { address, isConnected } = useAccount();
     const { connect, connectors } = useConnect();
     const { disconnect } = useDisconnect();
@@ -57,7 +64,7 @@ export default function WalletConnector() {
         }
     };
 
-    // Fetch Bitcoin balance when the Bitcoin wallet is connected, because Unisat doesn't provide balance it
+    // Fetch Bitcoin balance when the Bitcoin wallet is connected, because Unisat doesn't provide balance
     useEffect(() => {
         if (bitcoinWallet) {
             const fetchBitcoinBalance = async () => {
@@ -83,6 +90,37 @@ export default function WalletConnector() {
         }
     }, [bitcoinWallet]);
 
+    // Combine wallet data into an array of token objects
+    useEffect(() => {
+        const tokens: { address: string; balance: string; symbol: string }[] =
+            [];
+
+        if (isConnected && evmBalance && address) {
+            tokens.push({
+                address,
+                balance: evmBalance.formatted,
+                symbol: evmBalance.symbol,
+            });
+        }
+
+        if (bitcoinWallet && bitcoinBalance !== null) {
+            tokens.push({
+                address: bitcoinWallet,
+                balance: bitcoinBalance.toFixed(8),
+                symbol: "BTC",
+            });
+        }
+
+        setCurrentTokens(tokens);
+    }, [
+        isConnected,
+        evmBalance,
+        bitcoinWallet,
+        bitcoinBalance,
+        address,
+        setCurrentTokens,
+    ]);
+
     if (!isClient) return null;
     return (
         <div className="flex items-center justify-center">
@@ -97,7 +135,10 @@ export default function WalletConnector() {
                     {/* Solana Wallet */}
                     <div className="p-4 bg-gray-800 rounded-lg shadow-sm flex-1">
                         <h3 className="text-xl font-semibold mb-2">Solana</h3>
-                        <SolanaWallet />
+                        <SolanaWallet
+                            setCurrentTokens={setCurrentTokens}
+                            currentTokens={currentTokens}
+                        />
                     </div>
 
                     {/* EVM Wallet */}

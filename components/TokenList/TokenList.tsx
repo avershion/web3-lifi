@@ -1,6 +1,7 @@
 "use client";
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState, useCallback, useMemo } from "react";
 import { FixedSizeList as List, ListChildComponentProps } from "react-window";
+import { TokenType } from "./types";
 
 type Token = {
     chainId: number;
@@ -45,7 +46,11 @@ const TokenLogo = ({
     );
 };
 
-export default function TokenList() {
+export default function TokenList({
+    currentTokens,
+}: {
+    currentTokens: TokenType[];
+}) {
     const [tokens, setTokens] = useState<Token[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
@@ -69,11 +74,24 @@ export default function TokenList() {
 
         fetchTokens();
     }, []);
+    console.log({ tokens });
 
-    // Memoized row renderer
+    // Filter tokens by active wallets, otherwise show all
+    const displayTokens = useMemo(() => {
+        if (currentTokens && currentTokens.length > 0) {
+            return tokens.filter((token) =>
+                currentTokens.some(
+                    (ct) =>
+                        ct.symbol.toLowerCase() === token.symbol.toLowerCase()
+                )
+            );
+        }
+        return tokens;
+    }, [tokens, currentTokens]);
+
     const Row = useCallback(
         ({ index, style }: ListChildComponentProps) => {
-            const token = tokens[index];
+            const token = displayTokens[index];
             return (
                 <div
                     style={style}
@@ -98,7 +116,7 @@ export default function TokenList() {
                 </div>
             );
         },
-        [tokens]
+        [displayTokens]
     );
 
     if (loading) {
@@ -123,7 +141,7 @@ export default function TokenList() {
             <div className="bg-transparent rounded-lg overflow-hidden">
                 <List
                     height={600}
-                    itemCount={tokens.length}
+                    itemCount={displayTokens.length}
                     itemSize={100}
                     width="100%"
                     className="no-scrollbar"
