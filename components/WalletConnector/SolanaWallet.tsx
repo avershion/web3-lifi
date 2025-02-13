@@ -60,7 +60,7 @@ const SolanaButton = () => {
     } else {
         buttonText = "Connect Solana";
     }
-    //
+
     return (
         <Button
             onClick={handleClick}

@@ -74,7 +74,6 @@ export default function TokenList({
 
         fetchTokens();
     }, []);
-    console.log({ tokens });
 
     // Filter tokens by active wallets, otherwise show all
     const displayTokens = useMemo(() => {

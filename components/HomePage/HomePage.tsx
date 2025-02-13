@@ -6,7 +6,7 @@ import { TokenType } from "../TokenList/types";
 
 export default function HomePage() {
     const [currentTokens, setCurrentTokens] = useState<TokenType[]>([]);
-    console.log({ currentTokens });
+
     return (
         <div className="flex flex-col lg:flex-row items-start justify-center gap-8">
             <WalletConnector
