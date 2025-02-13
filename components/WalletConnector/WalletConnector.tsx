@@ -86,82 +86,82 @@ export default function WalletConnector() {
     if (!isClient) return null;
     return (
         <div className="flex items-center justify-center">
-            <div className="max-w-lg w-full mx-4 p-6 bg-transparent text-white shadow-lg rounded-xl space-y-6">
-                <h2 className="text-3xl font-extrabold text-cente pb-3">
+            <div className="max-w-lg w-full mx-4 p-6 bg-transparent text-white shadow-lg rounded-xl">
+                {/* Header: Hidden on mobile and medium, shown on large devices */}
+                <h2 className="hidden lg:block w-[400px] text-center text-3xl font-extrabold pb-3">
                     Wallet Connector
                 </h2>
 
-                {/* Solana Wallet */}
-                <div className="p-4 bg-gray-800 rounded-lg shadow-sm">
-                    <h3 className="text-xl font-semibold mb-2">
-                        Solana Wallet
-                    </h3>
-                    <SolanaWallet />
-                </div>
+                {/* Wallet cards container: row view by default (mobile & medium), column on large */}
+                <div className="flex flex-row lg:flex-col space-x-4 lg:space-x-0 lg:space-y-6">
+                    {/* Solana Wallet */}
+                    <div className="p-4 bg-gray-800 rounded-lg shadow-sm flex-1">
+                        <h3 className="text-xl font-semibold mb-2">Solana</h3>
+                        <SolanaWallet />
+                    </div>
 
-                {/* EVM Wallet */}
-                <div className="p-4 bg-gray-800 rounded-lg shadow-sm">
-                    <h3 className="text-xl font-semibold mb-2">EVM Wallet</h3>
-                    {isConnected ? (
-                        <div className="mt-2 space-y-3">
-                            <p className="text-gray-300 break-words">
-                                Connected: {address}
-                            </p>
-                            {evmBalance && (
-                                <p className="text-gray-300">
-                                    Balance: {evmBalance.formatted}{" "}
-                                    {evmBalance.symbol}
+                    {/* EVM Wallet */}
+                    <div className="p-4 bg-gray-800 rounded-lg shadow-sm flex-1">
+                        <h3 className="text-xl font-semibold mb-2">EVM</h3>
+                        {isConnected ? (
+                            <div className="mt-2 space-y-3">
+                                <p className="text-gray-300 break-words">
+                                    Connected: {address}
                                 </p>
-                            )}
-                            <Button
-                                onClick={() => disconnect()}
-                                variant="danger"
-                            >
-                                Disconnect
-                            </Button>
-                        </div>
-                    ) : (
-                        <div className="mt-2 space-y-3">
-                            {connectors.map((connector) => (
+                                {evmBalance && (
+                                    <p className="text-gray-300">
+                                        Balance: {evmBalance.formatted}{" "}
+                                        {evmBalance.symbol}
+                                    </p>
+                                )}
                                 <Button
-                                    key={connector.id}
-                                    onClick={() => connectEVM(connector)}
-                                    variant="primary"
+                                    onClick={() => disconnect()}
+                                    variant="danger"
                                 >
-                                    Connect {connector.name}
+                                    Disconnect
                                 </Button>
-                            ))}
-                        </div>
-                    )}
-                </div>
+                            </div>
+                        ) : (
+                            <div className="mt-2 space-y-3">
+                                {connectors.map((connector) => (
+                                    <Button
+                                        key={connector.id}
+                                        onClick={() => connectEVM(connector)}
+                                        variant="primary"
+                                    >
+                                        Connect {connector.name}
+                                    </Button>
+                                ))}
+                            </div>
+                        )}
+                    </div>
 
-                {/* Bitcoin Wallet */}
-                <div className="p-4 bg-gray-800 rounded-lg shadow-sm">
-                    <h3 className="text-xl font-semibold mb-2">
-                        Bitcoin Wallet
-                    </h3>
-                    {bitcoinWallet ? (
-                        <div className="mt-2 space-y-3">
-                            <p className="text-gray-300 break-words">
-                                Connected: {bitcoinWallet}
-                            </p>
-                            {bitcoinBalance !== null && (
-                                <p className="text-gray-300">
-                                    Balance: {bitcoinBalance.toFixed(8)} BTC
+                    {/* Bitcoin Wallet */}
+                    <div className="p-4 bg-gray-800 rounded-lg shadow-sm flex-1">
+                        <h3 className="text-xl font-semibold mb-2">Bitcoin</h3>
+                        {bitcoinWallet ? (
+                            <div className="mt-2 space-y-3">
+                                <p className="text-gray-300 break-words">
+                                    Connected: {bitcoinWallet}
                                 </p>
-                            )}
-                            <Button
-                                onClick={() => setBitcoinWallet(null)}
-                                variant="danger"
-                            >
-                                Disconnect
+                                {bitcoinBalance !== null && (
+                                    <p className="text-gray-300">
+                                        Balance: {bitcoinBalance.toFixed(8)} BTC
+                                    </p>
+                                )}
+                                <Button
+                                    onClick={() => setBitcoinWallet(null)}
+                                    variant="danger"
+                                >
+                                    Disconnect
+                                </Button>
+                            </div>
+                        ) : (
+                            <Button onClick={connectBitcoin} variant="primary">
+                                Connect Unisat
                             </Button>
-                        </div>
-                    ) : (
-                        <Button onClick={connectBitcoin} variant="primary">
-                            Connect Unisat
-                        </Button>
-                    )}
+                        )}
+                    </div>
                 </div>
             </div>
         </div>

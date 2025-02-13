@@ -15,7 +15,7 @@ export default function Button({
     className = "",
 }: ButtonProps) {
     const baseStyles =
-        "flex items-center justify-center w-full p-[0.8rem] text-white font-semibold rounded-lg transition-all duration-200";
+        "flex items-center justify-center w-full p-[0.5rem] md:p-[0.8rem] text-sm md:text-base text-white font-semibold rounded-lg transition-all duration-200";
 
     const variantStyles =
         variant === "danger"
