@@ -14,15 +14,26 @@ import {
     LedgerWalletAdapter,
     UnsafeBurnerWalletAdapter,
 } from "@solana/wallet-adapter-wallets";
-import { WalletModalProvider } from "@solana/wallet-adapter-react-ui";
+import {
+    WalletModalProvider,
+    useWalletModal,
+} from "@solana/wallet-adapter-react-ui";
 import { clusterApiUrl, LAMPORTS_PER_SOL } from "@solana/web3.js";
 import "@solana/wallet-adapter-react-ui/styles.css";
 import Button from "../Button/Button";
 
 const SolanaButton = () => {
-    const { connected, connect, disconnect, publicKey } = useWallet();
+    const { wallet, connected, connect, disconnect, publicKey } = useWallet();
+    // Use the wallet modal hook to open the wallet selection modal
+    const { setVisible } = useWalletModal();
 
     const handleClick = async () => {
+        // If no wallet is selected, open the modal to let the user choose one
+        if (!wallet) {
+            setVisible(true);
+            return;
+        }
+
         if (connected) {
             await disconnect();
         } else {
@@ -68,8 +79,6 @@ const WalletUI = () => {
     return (
         <div className="bg-gray-800 rounded-lg">
             <div className="flex flex-col space-y-3">
-                {/* Use the custom wallet button instead of WalletMultiButton */}
-                <SolanaButton />
                 {connected && publicKey && (
                     <p className="text-gray-300 break-words">
                         Balance:{" "}
@@ -79,6 +88,8 @@ const WalletUI = () => {
                         SOL
                     </p>
                 )}
+                {/* Use the custom wallet button instead of WalletMultiButton */}
+                <SolanaButton />
             </div>
         </div>
     );
