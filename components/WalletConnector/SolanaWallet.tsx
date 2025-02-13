@@ -21,7 +21,7 @@ import {
 import { clusterApiUrl, LAMPORTS_PER_SOL } from "@solana/web3.js";
 import "@solana/wallet-adapter-react-ui/styles.css";
 import Button from "../Button/Button";
-import { isTokenArrayEqual } from "@/helpers/helpers";
+import { isTokenArrayEqual } from "../../helpers/helpers";
 
 export type Token = {
     address: string;

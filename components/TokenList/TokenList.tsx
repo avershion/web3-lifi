@@ -3,7 +3,7 @@ import React, { useEffect, useState, useCallback, useMemo } from "react";
 import { FixedSizeList as List, ListChildComponentProps } from "react-window";
 import { TokenType } from "./types";
 
-type Token = {
+export type Token = {
     chainId: number;
     address: string;
     symbol: string;
