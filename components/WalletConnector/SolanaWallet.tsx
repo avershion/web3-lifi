@@ -12,7 +12,6 @@ import {
     SolflareWalletAdapter,
     TorusWalletAdapter,
     LedgerWalletAdapter,
-    UnsafeBurnerWalletAdapter,
 } from "@solana/wallet-adapter-wallets";
 import {
     WalletModalProvider,
@@ -151,10 +150,9 @@ export default function SolanaWallet({
     const wallets = useMemo(
         () => [
             new PhantomWalletAdapter(),
-            new SolflareWalletAdapter(),
+            // new SolflareWalletAdapter(),
             new TorusWalletAdapter(),
             new LedgerWalletAdapter(),
-            new UnsafeBurnerWalletAdapter(),
         ],
         [network]
     );
